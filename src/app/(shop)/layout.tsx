@@ -1,3 +1,4 @@
+import { TopMenu } from "@/components/ui/top-menu/TopMenu";
 
 
 export default function Layout({ children }: {
@@ -5,6 +6,7 @@ export default function Layout({ children }: {
 }) {
   return (
     <section className="min-h-screen">
+      <TopMenu />
       {children}
     </section>
   )

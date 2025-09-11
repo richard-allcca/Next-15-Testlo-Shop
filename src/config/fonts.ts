@@ -10,7 +10,7 @@ export const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const montserratAlternates = Montserrat_Alternates({
+export const titleFont = Montserrat_Alternates({
   variable: "--font-montserrat-alternates",
   subsets: ["latin"],
   weight: ["400", "700"],
