@@ -1,6 +1,6 @@
 import { titleFont } from "@/config/fonts";
 import Link from "next/link";
-import { IoCartOutline, IoMenuOutline, IoSearchOutline } from "react-icons/io5";
+import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
 
 
 
@@ -12,7 +12,6 @@ export const TopMenu = () => {
       <div>
         <Link
           href="/"
-          // className="text-2xl"
           aria-label="Go to home page"
         >
           <span className={`${titleFont.className} font-bold`} >Teslo</span>
@@ -49,7 +48,7 @@ export const TopMenu = () => {
         </Link>
         <Link href="/cart" className="mx-2" >
           <div className="relative">
-            <span className="px-1 absolute text-xs rounded-full px-1 font-bold -top-2 -right-0 bg-blue-700 text-white" >3</span>
+            <span className="absolute text-xs rounded-full px-1 font-bold -top-2 -right-0 bg-blue-700 text-white" >3</span>
             <IoCartOutline className="w-5 h-5" />
           </div>
         </Link>
