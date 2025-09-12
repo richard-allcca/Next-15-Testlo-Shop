@@ -1,4 +1,5 @@
 import { titleFont } from "@/config/fonts";
+import { notFound } from "next/navigation";
 
 interface Props {
   params: {
