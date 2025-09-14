@@ -9,11 +9,11 @@ interface TitleProps {
 export const Title = ({ title, subTitle, className }: TitleProps) => {
   return (
     <h1 className={`mt-3 ${className}`}>
-      <h1 className={` ${titleFont.className} antialiased text-4xl font-semibold my-10 `} >
+      <span className={` ${titleFont.className} antialiased text-4xl font-semibold my-10 `} >
         {title}
-      </h1>
+      </span>
       {
-        subTitle && <h3 className="text-xl mb-5">{subTitle}</h3>
+        subTitle && <span className="text-xl mb-5">{subTitle}</span>
       }
     </h1>
   );
