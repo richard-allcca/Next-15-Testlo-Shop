@@ -25,7 +25,6 @@ export const Sidebar = () => {
       }
 
       {/* Side menu */}
-      {/* TODO - Efecto de slide */}
       <nav className={
         clsx(
           "fixed p-5 right-0 top-0 w-[400px] h-screen bg-white z-20 transform transition-all duration-300",
@@ -39,6 +38,7 @@ export const Sidebar = () => {
           className='absolute top-5 right-5 text-3xl cursor-pointer'
           onClick={() => { closeMenu(); }}
         />
+
         {/* Input */}
         <div className="relative mt-14">
         <IoSearchOutline size={20} className="absolute top-2 left-3" />

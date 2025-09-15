@@ -8,8 +8,8 @@ interface TitleProps {
 
 export const Title = ({ title, subTitle, className }: TitleProps) => {
   return (
-    <h1 className={`mt-3 ${className}`}>
-      <span className={` ${titleFont.className} antialiased text-4xl font-semibold my-10 `} >
+    <h1 className={`mt-3 flex flex-col justify-center ${className}`}>
+      <span className={` ${titleFont.className} antialiased text-4xl font-semibold mb-2`} >
         {title}
       </span>
       {

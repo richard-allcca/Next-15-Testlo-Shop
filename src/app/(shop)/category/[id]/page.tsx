@@ -1,5 +1,8 @@
-import { titleFont } from "@/config/fonts";
-import { notFound } from "next/navigation";
+import { ProductGrid } from "@/components/product-grid/ProductGrid";
+import { Title } from "@/components/ui/title/Title";
+import { initialData } from "@/seed/seed";
+
+const products = initialData.products;
 
 interface Props {
   params: {
@@ -10,13 +13,27 @@ interface Props {
 export default async function CategoryPage({ params }: Props) {
   const { id } = await params;
 
+  const listCategories = {
+    men: "Hombres",
+    women: "Mujeres",
+    kid: "Niños",
+  }
+
+  const subtitleById = listCategories[id as keyof typeof listCategories] || 'Todos';
+
+  const productsByCategory = products.filter(product => product.gender === id);
+
   // TODO - Implementation not found
   // notFound();
 
   return (
-    <div>
-      <h1 >Category page ID: {id}</h1>
-      <h1 className={titleFont.className} >Hello World</h1>
-    </div>
+    <>
+      <Title
+        title={`Artículos para ${subtitleById}`}
+        subTitle='Todos los productos'
+        className="mb-2"
+      />
+      <ProductGrid products={productsByCategory} />
+    </>
   );
 }
