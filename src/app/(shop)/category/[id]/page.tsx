@@ -1,6 +1,7 @@
 import { ProductGrid } from "@/components/product-grid/ProductGrid";
 import { Title } from "@/components/ui/title/Title";
 import { initialData } from "@/seed/seed";
+import { notFound } from "next/navigation";
 
 const products = initialData.products;
 
@@ -23,8 +24,10 @@ export default async function CategoryPage({ params }: Props) {
 
   const productsByCategory = products.filter(product => product.gender === id);
 
-  // TODO - Implementation not found
-  // notFound();
+
+  if (productsByCategory.length === 0) {
+    notFound();
+  }
 
   return (
     <>
