@@ -1,5 +1,7 @@
 import { QuantitySelector } from "@/components/product/quantity-selector/QuantitySelector";
 import { SizeSelector } from "@/components/product/size-selectector/SizeSelector";
+import { ProductMobilSlidesShow } from "@/components/product/slidesShow/ProductMobilSlidesShow";
+import { ProductSlidesShow } from "@/components/product/slidesShow/ProductSlidesShow";
 import { titleFont } from "@/config/fonts";
 import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
@@ -10,9 +12,9 @@ interface Props {
   };
 }
 
-export default function ProductSlugPage({ params }: Props) {
+export default async function ProductSlugPage({ params }: Props) {
 
-  const { slug } = params;
+  const { slug } = await params;
   const product = initialData.products.find(p => p.slug === slug);
   console.log("🚀 ~ ProductSlugPage ~ product:", product)
 
@@ -23,7 +25,22 @@ export default function ProductSlugPage({ params }: Props) {
   return (
     <div className="mt-5 mb-20 grid md:grid-cols-3 gap-3" >
       {/* Slideshow */}
-      <div className="col-span-1 md:col-span-2"></div>
+      <div className="col-span-1 md:col-span-2">
+
+        {/* Mobil SlidesShow */}
+        <ProductMobilSlidesShow
+          images={product.images}
+          title={product.title}
+          className="md:hidden"
+        />
+
+        {/* Desktop SlidesShow */}
+        <ProductSlidesShow
+          images={product.images}
+          title={product.title}
+          className="hidden md:block"
+        />
+      </div>
 
       {/* Details */}
       <div className="col-span-1 px-5">
