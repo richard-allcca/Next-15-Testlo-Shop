@@ -5,9 +5,14 @@ export default function Page() {
   return (
     <div className="flex flex-col min-h-screen pt-32 sm:pt-52">
 
-      <h1 className={`${titleFont.className} text-4xl mb-5`}>Ingresar</h1>
+      <h1 className={`${titleFont.className} text-4xl mb-5`}>Nueva cuenta</h1>
 
       <div className="flex flex-col">
+
+        <label htmlFor="email">Nombre completo</label>
+        <input
+          className="px-5 py-2 bg-gray-200 rounded mb-5"
+          type="email" />
 
         <label htmlFor="email">Correo electrónico</label>
         <input
@@ -23,7 +28,7 @@ export default function Page() {
         <button
 
           className="btn-primary">
-          Ingresar
+          Crear cuenta
         </button>
 
 
@@ -35,9 +40,9 @@ export default function Page() {
         </div>
 
         <Link
-          href="/auth/new-account"
+          href="/auth/login"
           className="btn-secondary text-center">
-          Crear una nueva cuenta
+          Ingresar
         </Link>
 
       </div>
