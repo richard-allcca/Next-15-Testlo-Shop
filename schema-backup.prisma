@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -35,7 +34,8 @@ model Category {
   id String @id @default(uuid())
   name String @unique
 
-  Product Product[] // Foreign Key Relation with Product
+  // Relations - Products
+  Product Product[]
 }
 
 model Product {
@@ -54,13 +54,14 @@ model Product {
 
   @@index([gender])
 
-  ProductImage ProductImage[] // Foreign Key Relation with ProductImage
+  // Relations - Images
+  ProductImage ProductImage[]
 }
 
 model ProductImage {
   id Int @id @default(autoincrement())
   url String
 
-  product Product @relation(fields: [productId], references: [id])
-  productId String // Foreign Key with Product
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String // Foreign Key
 }
