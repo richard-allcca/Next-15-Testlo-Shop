@@ -12,6 +12,9 @@ cp .env.example .env
 # Levantar la base de datos
 docker-compose up -d
 
+# Sync your Prisma schema with your database in production, too after making changes to your Prisma schema.
+npx prisma migrate dev --name init
+
 # Run the development server:
 npm run dev
 
@@ -31,7 +34,7 @@ npx prisma init --datasource-provider postgresql
 # Ignore this step if you already have a schema defined.
 
 # Run this command to migrate your local Prisma Postgres database
-# Sync your Prisma schema with your database in production, after making changes to your Prisma schema.
+# Sync your Prisma schema with your database in production, too after making changes to your Prisma schema.
 npx prisma migrate dev --name init
 
 # Importa la estructura real de la base de datos a tu proyecto Prisma.
