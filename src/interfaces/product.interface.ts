@@ -1,6 +1,6 @@
 
 export interface Product {
-    // TODO - _id: string; // MongoDB ID
+    id: string; // MongoDB ID
     description: string;
     images: string[];
     inStock: number;
@@ -9,7 +9,7 @@ export interface Product {
     slug: string;
     tags: string[];
     title: string;
-    type: Type;
+    // type: Type;
     gender: 'men'|'women'|'kid'|'unisex'
 }
 
