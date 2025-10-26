@@ -1,8 +1,6 @@
 export const revalidate = 60; // Revalidate this page every 60 seconds
 
 import { getProductBySlug } from "@/actions/products/get-product-by-slug";
-import { QuantitySelector } from "@/components/product/quantity-selector/QuantitySelector";
-import { SizeSelector } from "@/components/product/size-selectector/SizeSelector";
 import { ProductMobilSlidesShow } from "@/components/product/slidesShow/ProductMobilSlidesShow";
 import { ProductSlidesShow } from "@/components/product/slidesShow/ProductSlidesShow";
 import StockLabel from "@/components/product/stock-label/StockLabel";
@@ -10,6 +8,7 @@ import { titleFont } from "@/config/fonts";
 import { Metadata, ResolvingMetadata } from "next";
 // import { initialData } from "@/seed/seed";
 import { notFound } from "next/navigation";
+import { AddToCart } from "./ui/AddToCart";
 
 interface Props {
   params: {
@@ -85,20 +84,7 @@ export default async function ProductSlugPage({ params }: Props) {
         <h1 className={`${titleFont.className} antialiased text-xl`}>{product?.title}</h1>
         <p className="text-lg mb-5">${product?.price}</p>
 
-        {/* Selector de Tallas */}
-        <SizeSelector selectedSize={product.sizes[0]} availableSizes={product.sizes} />
-
-        {/* Selector de cantidad */}
-        <QuantitySelector
-          quantity={2}
-        />
-
-        {/* Button */}
-        <button
-          className="btn-primary my-5"
-        >
-          Agregar al carrito
-        </button>
+        <AddToCart product={product} />
 
         {/* Description */}
         <h3 className="font-bold text-sm">Description</h3>

@@ -1,17 +1,10 @@
 import { Title } from "@/components/ui/title/Title";
 import Link from "next/link";
+import ProductInCart from "./ui/ProductInCart";
 
-import { initialData } from "@/seed/seed";
-import Image from "next/image";
-import { QuantitySelector } from "@/components/product/quantity-selector/QuantitySelector";
-
-const productsINCart = [
-  initialData.products[0],
-  initialData.products[1],
-  initialData.products[2],
-];
 
 export default function CartPage() {
+
   return (
     <div className="flex justify-center items-center mb-72 px-10 sm:px-0" >
 
@@ -24,36 +17,10 @@ export default function CartPage() {
           {/* Carrito */}
           <div className="flex flex-col mt-5">
             <span className="text-xl">Agregar más items</span>
-            <Link href={'/'} className="underline mb-5" >
-              Continúa comprando
-            </Link>
+            <Link href={'/'} className="underline mb-5" > Continúa comprando </Link>
 
-            {/* Ttems */}
-            {
-              productsINCart.map(product => {
-                return (
-                  <div key={product.slug} className="flex mb-5">
-                    <Image
-                      src={`/products/${product.images[0]}`}
-                      width={100}
-                      height={100}
-                      alt={product.title}
-                      className='mr-5 rounded-none'
-                    />
-
-                    <div>
-                      <p>{product.title}</p>
-                      <p>{product.price}</p>
-                      <QuantitySelector quantity={3} />
-                    </div>
-
-                    <button className="underline mt-3" >
-                      Remover
-                    </button>
-                  </div>
-                );
-              })
-            }
+            {/* Items */}
+            <ProductInCart />
           </div>
 
 
