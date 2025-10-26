@@ -4,11 +4,17 @@ import { QuantitySelector } from '@/components/product/quantity-selector/Quantit
 import { useCartStore } from '@/store/cart/cart-store';
 import Image from 'next/image';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
+
 
 const ProductInCart = () => {
   const cart = useCartStore(state => state.cart);
   const updateProductQuantity = useCartStore(state => state.updateProductQuantity);
   const removeProductFromCart = useCartStore(state => state.removeProductFromCart);
+
+  if (cart.length === 0) {
+    redirect('/empty');
+  }
 
 
   const renderCartItems = cart.map(product => {

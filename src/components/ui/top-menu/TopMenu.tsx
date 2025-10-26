@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IoCartOutline, IoSearchOutline } from "react-icons/io5";
 
-
+// NOTE - loading state to avoid hydration error
 
 export const TopMenu = () => {
   const [loading, setLoading] = useState(false);
@@ -19,6 +19,11 @@ export const TopMenu = () => {
     setLoading(true);
   }, []);
 
+  if (!loading) return null;
+
+  const getHrefCart = () => {
+    return totalItems > 0 ? '/cart' : '/empty';
+  }
 
   return (
     <div className="flex px-5 py-2 justify-between items-center w-full">
@@ -62,13 +67,9 @@ export const TopMenu = () => {
           <IoSearchOutline />
         </Link>
 
-        <Link href="/cart" className="mx-2" >
+        <Link href={getHrefCart()} className="mx-2" >
           <div className="relative">
-            {
-              loading && (
-                <span className="absolute text-xs rounded-full px-1 font-bold -top-2 -right-2 bg-blue-700 text-white" >{totalItems}</span>
-              )
-            }
+            <span className="absolute text-xs rounded-full px-1 font-bold -top-2 -right-2 bg-blue-700 text-white" >{totalItems}</span>
             <IoCartOutline className="w-5 h-5" />
           </div>
         </Link>

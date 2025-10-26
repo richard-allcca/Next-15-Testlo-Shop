@@ -11,6 +11,12 @@ interface State {
   addProductToCart: (product: CartProduct) => void;
   updateProductQuantity: (product: CartProduct, quantity: number) => void;
   removeProductFromCart: (product: CartProduct) => void;
+  getSummaryInfo: () => {
+    totalItems: number;
+    subTotal: number;
+    tax: number;
+    total: number;
+  };
 }
 
 export const useCartStore = create<State>()(
@@ -66,6 +72,20 @@ export const useCartStore = create<State>()(
           cart: updatedCart
         }));
       },
+      getSummaryInfo: () => {
+        const { cart } = get();
+        const taxRate = 0.15;
+        const totalItems = cart.reduce((total, product) => total + product.quantity, 0);
+        const subTotal = cart.reduce((total, product) => total + product.price * product.quantity, 0);
+        const tax = subTotal * taxRate;
+        const total = subTotal + tax;
+        return {
+          totalItems,
+          subTotal,
+          tax,
+          total
+        };
+      }
     }),
     {
       name: 'shopping-cart', // name of the item in the storage (must be unique)
