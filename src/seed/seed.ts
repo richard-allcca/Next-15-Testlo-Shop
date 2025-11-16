@@ -1,6 +1,4 @@
-import bcrypt from 'bcryptjs';
-// import { bcryptjs } from 'bcryptjs';
-// const bcryptjs = require('bcryptjs');
+import bcrypt from "bcryptjs";
 
 interface SeedUser {
     email: string;

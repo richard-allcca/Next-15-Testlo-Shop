@@ -1,3 +1,5 @@
+import prisma from "@/lib/prisma";
+import bcrypt from "bcryptjs";
 import NextAuth, { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import z from "zod";
@@ -12,6 +14,7 @@ export const authConfig: NextAuthConfig = {
 
     Credentials({
       async authorize(credentials) {
+
         const parsedCredentials = z
           .object({
             email: z.email(),
@@ -19,19 +22,36 @@ export const authConfig: NextAuthConfig = {
           })
           .safeParse(credentials);
 
-        if (!parsedCredentials.success) {
-          throw new Error('Invalid credentials');
-        }
+        if (!parsedCredentials.success) return null;
 
-        const { email, password } = parsedCredentials.data;
-        console.log("🚀 ~ authorize ~ email:", email, password)
+        // Credenciales validadas del formulario
+        const { email: _email, password } = parsedCredentials.data;
 
-        // Replace this with your actual user authentication logic
-        return { id: '1', name: 'John Doe', email };
+        // Buscar el correo
+        const user = await prisma.user.findUnique({
+          where: { email: _email }
+        });
+
+        if (!user) return null;
+
+        // Verificar la contraseña
+        if (!bcrypt.compareSync(password, user.password)) return null;
+
+        // Retornar solo campos necesarios del usuario
+        const { id, name, email } = user;
+
+        return { id, name, email };
       }
     })
 
   ]
 }
 
+/**
+ * NextAuth instance
+ * signIn method returns a Promise that resolves to a SignInResponse object
+ * { ok: boolean; error: string | null; status: number; url: string | null; }
+ * signOut method returns a Promise<void>
+ * auth object provides access to the current session and user information
+ */
 export const { signIn, signOut, auth } = NextAuth(authConfig)
