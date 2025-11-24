@@ -1,12 +1,24 @@
 'use client';
 
 import { authenticate } from '@/actions/auth/login';
+import clsx from 'clsx';
 import Link from 'next/link';
-import { useActionState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useActionState, useEffect } from 'react';
+import { useFormStatus } from 'react-dom';
+import { IoInformationOutline } from 'react-icons/io5';
 
-const LoginForm = () => {
+export const LoginForm = () => {
+  const router = useRouter();
   const [state, dispatch] = useActionState(authenticate, undefined)
-  console.log("🚀 ~ LoginForm ~ state:", state)
+
+  useEffect(() => {
+    if (state === 'success') {
+      router.replace('/')
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state])
+
 
   return (
     <form action={dispatch}  className="flex flex-col">
@@ -26,12 +38,18 @@ const LoginForm = () => {
         name="password"
       />
 
-      <button
-        type="submit"
-        className="btn-primary">
-        Ingresar
-      </button>
+      {
+        state === 'CredentialsSignin' && (
+          <>
+            <IoInformationOutline className="text-red-500 mb-2" size={24} />
+            <p className="text-red-500 mb-5 text-sm">
+              Credenciales inválidas. Por favor, intenta de nuevo.
+            </p>
+          </>
+        )
+      }
 
+      <LoginButton />
 
       {/* divisor l ine */}
       <div className="flex items-center my-5">
@@ -42,7 +60,8 @@ const LoginForm = () => {
 
       <Link
         href="/auth/new-account"
-        className="btn-secondary text-center">
+        className="btn-secondary text-center"
+      >
         Crear una nueva cuenta
       </Link>
 
@@ -50,4 +69,19 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+function LoginButton() {
+  const { pending } = useFormStatus()
+
+  return (
+    <button
+      type="submit"
+      className={clsx({
+        'btn-primary': !pending,
+        'btn-primary-disabled': pending,
+      })}
+    >
+      {pending ? 'Cargando...' : 'Ingresar'}
+    </button>
+  )
+
+}

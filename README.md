@@ -50,7 +50,9 @@ npx prisma generate
 - [Next.js - Adding Authentication](https://nextjs.org/learn/dashboard-app/adding-authentication)
 - [Generate a random secret](https://generate-secret.vercel.app/32)
 
-## Autenticación with Next.js
+## Autenticación with Auth.config.ts
+
+Diferencias con [...nextauth]/route.ts en el archivo ```diferencias-auth-next.md```
 
 Los pasos para configurar la autenticación en Next.js usando NextAuth.js se encuentran en la [documentación oficial](https://nextjs.org/learn/dashboard-app/adding-authentication).
 
@@ -95,3 +97,82 @@ En caso de no encontrar la documentación, los pasos básicos son:
     ```
 
     Desde este archivo exportas las funciones de proveedores y las páginas personalizadas que usarás.
+
+4. Método para obtener el estado de la sesión en componentes del lado del cliente:
+
+    4.1 Exportar desde auth.config.ts los handlers:
+
+      ```typescript
+      export const { signIn, signOut, auth, handlers } = NextAuth(authConfig);
+      ```
+
+    4.2 Crear el archivo [...nextauth]/route.ts en la carpeta `src/app/api/auth/` para manejar las rutas de autenticación:
+
+      ```typescript
+      import { handlers } from "../../../../../auth.config";
+
+      export const { GET, POST } = handlers;
+      ```
+
+    Aquí importas los manejadores de rutas desde el archivo de configuración de autenticación.
+
+    4.3 Crear un provider para envolver la aplicación y proporcionar el estado de autenticación:
+
+      ```typescript
+      "use client";
+
+      import { SessionProvider } from "next-auth/react";
+      import { ReactNode } from "react";
+
+      interface Props {
+        children: ReactNode;
+      }
+
+      export function AuthProvider({ children }: Props) {
+        return <SessionProvider>{children}</SessionProvider>;
+      }
+      ```
+
+    4.4 Envolver la aplicación con el AuthProvider en el layout principal:
+
+      ```typescript
+      import { AuthProvider } from "@/components/provider/Provider";
+
+      export default function RootLayout({
+        children,
+      }: {
+        children: React.ReactNode;
+      }) {
+        return (
+          <html lang="en">
+            <body>
+              <AuthProvider>
+                {children}
+              </AuthProvider>
+            </body>
+          </html>
+        );
+      }
+      ```
+
+    4.5 Usar el hook useSession en los componentes del lado del cliente para obtener el estado de la sesión:
+
+      ```typescript
+      "use client";
+
+      import { userSession } from "next-auth/react";
+
+      export default function Dashboard() {
+        const { data: session, status } = useSession();
+
+        if (status === "loading") {
+          return <div>Loading...</div>;
+        }
+
+        if (session === 'unauthenticated') {
+          return <div>Please log in to access the dashboard.</div>;
+        }
+
+        return <div>Welcome, {session.user?.name}!</div>;
+      }
+      ```

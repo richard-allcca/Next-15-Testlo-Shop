@@ -8,12 +8,17 @@ export async function authenticate(
   formData: FormData
 ) {
   try {
-    console.log("🚀 ~ authenticate ~ formData:", formData)
-    await signIn('credentials', Object.fromEntries(formData));
+    // await sleep(1000); // Simular retardo de red
+    await signIn('credentials', {
+      ...Object.fromEntries(formData),
+      redirect: false,
+    });
+
+    return 'success';
   } catch (error) {
-    // if ((error as Error).message.includes('CredentialsSignin')) {
+    if ((error as Error).message.includes('CredentialsSignin')) {
       return 'CredentialsSignin';
-    // }
-    // throw error;
+    }
+    return 'CredentialsSignin';
   }
 }
