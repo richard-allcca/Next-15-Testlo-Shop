@@ -53,5 +53,6 @@ export const authConfig: NextAuthConfig = {
  * { ok: boolean; error: string | null; status: number; url: string | null; }
  * signOut method returns a Promise<void>
  * auth object provides access to the current session and user information
+ * handlers object contains the HTTP method handlers for NextAuth routes
  */
-export const { signIn, signOut, auth } = NextAuth(authConfig)
+export const { signIn, signOut, auth, handlers } = NextAuth(authConfig)

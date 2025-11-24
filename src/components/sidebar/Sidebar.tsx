@@ -1,15 +1,20 @@
-'use client'
+'use client';
 
+import { logout } from '@/actions/auth/logout';
 import { useUiStore } from '@/store/ui/ui-store';
 import clsx from 'clsx';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import React from 'react'
+import React from 'react';
 import { IoCloseOutline, IoLogInOutline, IoLogOutOutline, IoPeopleOutline, IoPersonAddOutline, IoSearchOutline, IoShirtOutline, IoTicketOutline } from 'react-icons/io5';
 
 export const Sidebar = () => {
 
-  const isSideMenuOpen = useUiStore( state => state.isSideMenuOpen );
-  const closeMenu = useUiStore( state => state.closeSideMenu );
+  const isSideMenuOpen = useUiStore(state => state.isSideMenuOpen);
+  const closeMenu = useUiStore(state => state.closeSideMenu);
+
+  const { data: session, status } = useSession();
+  const isAuthenticated = status === "authenticated";
 
   return (
     <>
@@ -41,17 +46,18 @@ export const Sidebar = () => {
 
         {/* Input */}
         <div className="relative mt-14">
-        <IoSearchOutline size={20} className="absolute top-2 left-3" />
-        <input
-          type="text"
-          placeholder='Buscar...'
-          className="w-full bg-gray rounded pl-10 py-1 pr-10 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-500"
-        />
+          <IoSearchOutline size={20} className="absolute top-2 left-3" />
+          <input
+            type="text"
+            placeholder='Buscar...'
+            className="w-full bg-gray rounded pl-10 py-1 pr-10 border-b-2 text-xl border-gray-200 focus:outline-none focus:border-blue-500"
+          />
         </div>
 
         {/* Menu */}
         <Link
-          href="/"
+          href="/profile"
+          onClick={() => closeMenu()}
           className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
         >
           <IoPersonAddOutline size={30} className="mr-3 text-xl" />
@@ -66,21 +72,30 @@ export const Sidebar = () => {
           <span className='text-lg font-medium'>Ordenes</span>
         </Link>
 
-        <Link
-          href="/"
-          className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-        >
-          <IoLogInOutline size={30} className="mr-3 text-xl" />
-          <span className='text-lg font-medium'>Ingresar</span>
-        </Link>
+        {
+          !isAuthenticated && (
+            <Link
+              href="/auth/login"
+              onClick={() => closeMenu()}
+              className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
+            >
+              <IoLogInOutline size={30} className="mr-3 text-xl" />
+              <span className='text-lg font-medium'>Ingresar</span>
+            </Link>
+          )
+        }
 
-        <Link
-          href="/"
-          className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all'
-        >
-          <IoLogOutOutline size={30} className="mr-3 text-xl" />
-          <span className='text-lg font-medium'>Salir</span>
-        </Link>
+        {
+          isAuthenticated && (
+            <button
+              onClick={() => { logout(); closeMenu(); }}
+              className='flex items-center mt-10 p-2 hover:bg-gray-100 rounded transition-all w-full'
+            >
+              <IoLogOutOutline size={30} className="mr-3 text-xl" />
+              <span className='text-lg font-medium'>Salir</span>
+            </button>
+          )
+        }
 
         {/* Line separator */}
         <div className="w-full h-px bg-gray-200 my-10"></div>
@@ -113,5 +128,5 @@ export const Sidebar = () => {
 
     </>
 
-  )
-}
+  );
+};
